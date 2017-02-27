@@ -4,14 +4,14 @@ from pygame.locals import *
 # TODO 移动平滑，速度根据长度改变，随机出生地点，重构代码
 
 #################################### 游戏基本设置
-WINDOW_WIDTH = 640
-WINDOW_HEIGHT = 480
-CELL_SIZE = 10
+WINDOW_WIDTH = 960
+WINDOW_HEIGHT = 720
+CELL_SIZE = 15
 MOVE_SIZE = CELL_SIZE
 assert WINDOW_WIDTH % CELL_SIZE == 0 and WINDOW_HEIGHT % CELL_SIZE == 0, '窗口大小不合适'
 
 
-FPS = 12
+FPS = 10
 
 #################################### 颜色
 WHITE = (255,255,255)
@@ -109,6 +109,7 @@ class Snake():
 
 
 
+
 class Apple(pygame.sprite.Sprite):
     def __init__(self):
         self.apple = pygame.Rect(CELL_SIZE*random.randint(0,(WINDOW_WIDTH/CELL_SIZE)-1), CELL_SIZE*random.randint(0,(WINDOW_HEIGHT/CELL_SIZE)-1), CELL_SIZE, CELL_SIZE)
@@ -117,6 +118,11 @@ class Apple(pygame.sprite.Sprite):
 def genApple():
     return pygame.Rect(CELL_SIZE*random.randint(0,(WINDOW_WIDTH/CELL_SIZE)-1), CELL_SIZE*random.randint(0,(WINDOW_HEIGHT/CELL_SIZE)-1), CELL_SIZE, CELL_SIZE)
 
+def drawScore(score):
+    scoreSurf = BASICFONT.render('score: %s' % (score), True, DARKGRAY)
+    scoreRect = scoreSurf.get_rect()
+    scoreRect.topleft = (WINDOW_WIDTH - 120, 10)
+    SURFACE.blit(scoreSurf, scoreRect)
 
 
 def drawPressKeyMsg():
@@ -182,11 +188,9 @@ def snake_run(SURFACE):
         if showGameOverScreen():
             snake = Snake()
 
+    drawScore(snake.len - SNAKE_LEN)
     pygame.display.update()
 
-    snake.march()
-    if add:
-        snake.add()
 
 def eventProcessor():
     for event in pygame.event.get():
@@ -205,6 +209,12 @@ def eventProcessor():
             if event.key == K_DOWN:
                 if snake.direction is not SNAKE_UP:
                     snake.direction = SNAKE_DOWN
+
+
+    # 代码放这里减小延迟
+    snake.march()
+    if add:
+        snake.add()
 
 def mainLoop():
     while True:
