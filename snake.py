@@ -2,7 +2,6 @@ import pygame, sys, random
 from pygame.locals import *
 
 # TODO 移动平滑，速度根据长度改变，随机出生地点，重构代码
-# TODO 这代码惨不忍睹，有屌大的帮我重构一下吗。没有的话我等会再问一遍
 
 #################################### 游戏基本设置
 WINDOW_WIDTH = 640
@@ -12,7 +11,7 @@ MOVE_SIZE = CELL_SIZE
 assert WINDOW_WIDTH % CELL_SIZE == 0 and WINDOW_HEIGHT % CELL_SIZE == 0, '窗口大小不合适'
 
 
-FPS = 14
+FPS = 12
 
 #################################### 颜色
 WHITE = (255,255,255)
@@ -112,11 +111,11 @@ class Snake():
 
 class Apple(pygame.sprite.Sprite):
     def __init__(self):
-        self.apple = pygame.Rect(CELL_SIZE*random.randint(0,(WINDOW_WIDTH/CELL_SIZE)), CELL_SIZE*random.randint(0,(WINDOW_HEIGHT/CELL_SIZE)), CELL_SIZE, CELL_SIZE)
+        self.apple = pygame.Rect(CELL_SIZE*random.randint(0,(WINDOW_WIDTH/CELL_SIZE)-1), CELL_SIZE*random.randint(0,(WINDOW_HEIGHT/CELL_SIZE)-1), CELL_SIZE, CELL_SIZE)
 
 # 在地图上随机生成一个APPLE
 def genApple():
-    return pygame.Rect(CELL_SIZE*random.randint(0,(WINDOW_WIDTH/CELL_SIZE)), CELL_SIZE*random.randint(0,(WINDOW_HEIGHT/CELL_SIZE)), CELL_SIZE, CELL_SIZE)
+    return pygame.Rect(CELL_SIZE*random.randint(0,(WINDOW_WIDTH/CELL_SIZE)-1), CELL_SIZE*random.randint(0,(WINDOW_HEIGHT/CELL_SIZE)-1), CELL_SIZE, CELL_SIZE)
 
 
 
